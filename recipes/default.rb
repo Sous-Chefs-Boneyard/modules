@@ -25,13 +25,14 @@ directory "/etc/modules-load.d" do
 end
 
 cookbook_file "/etc/modules-load.d/header" do
-  source "module-load_header"
+  source "modules-load_header"
   owner "root"
   group "root"
   mode "0644"
 end
 
 # using upstart
+case node[:platform]
 when "ubuntu"
   if node[:platform_version].to_f >= 9.10
     cookbook_file "/etc/init/modules-load.conf" do

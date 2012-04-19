@@ -25,7 +25,7 @@ action :save do
     group "root"
     mode "0644"
     variables(
-      :modules => new_resource.modules,
+      :modules => new_resource.modules
       )
     notifies :start, "service[modules-load]"
   end
@@ -44,9 +44,9 @@ action :remove do
     action :delete
   end
   #TODO test this function
-  new_resource.modules.each do |module|
+  new_resource.modules.each do |name|
     execute "unload module" do
-      command "modprobe -r #{module}"
+      command "modprobe -r #{name}"
     end
   end
 end

@@ -1,5 +1,5 @@
 case node[:platform]
   when "ubuntu"
-    default[:modules][:lp][:options] = nil
-    default[:modules][:rtc][:options] = nil
+    default[:modules][:lp]
+    default[:modules][:rtc]
 end
