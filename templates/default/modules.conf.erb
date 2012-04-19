@@ -1,0 +1,7 @@
+<% @modules.each do |module| -%>
+<% if module.class == String %>
+<%= module %>
+<% else -%>
+<%= module[0] %> <% module[1].each do |option, value| -%><%= option %>=<%= value %><% end %>
+<% end %>
+<% end %>
