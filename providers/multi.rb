@@ -18,6 +18,20 @@
 # limitations under the License.
 #
 
+def path
+  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
+end
+
+def serializeOptions
+  if new_resource.options
+    output = ""
+    new_resource.options.each do |option, value|
+      output << " " + option + "=" + value
+    end
+    return output
+  end
+end
+
 action :save do
   template path do
     source "modules.conf.erb"
@@ -51,16 +65,3 @@ action :remove do
   end
 end
 
-def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
-end
-
-def serializeOptions
-  if new_resource.options
-    output = ""
-    new_resource.options.each do |option, value|
-      output << " " + option + "=" + value
-    end
-    return output
-  end
-end
