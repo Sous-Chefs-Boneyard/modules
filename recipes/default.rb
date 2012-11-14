@@ -32,9 +32,9 @@ cookbook_file "/etc/modules-load.d/header" do
 end
 
 # using upstart
-case node[:platform]
+case node['platform']
 when "ubuntu"
-  if node[:platform_version].to_f >= 9.10
+  if node['platform_version'].to_f >= 9.10
     cookbook_file "/etc/init/modules-load.conf" do
       source "modules-load.conf"
       owner "root"
@@ -56,14 +56,14 @@ end
 
 #TODO do init script.
 
-if node.attribute?(:modules)
+if node.attribute?('modules')
   template "/etc/modules-load.d/chef-attibutes.conf" do
     source "modules.conf.erb"
     mode "0644"
     owner "root"
     group "root"
     variables(
-      :modules => node[:modules] 
+      :modules => node['modules'] 
     )
     notifies :start, "service[modules-load]"
   end
