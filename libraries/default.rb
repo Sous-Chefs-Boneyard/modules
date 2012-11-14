@@ -1,4 +1,4 @@
-def supported?()
+def supported?
   case node['platform']
   when "ubuntu"
     # only work with upstart
