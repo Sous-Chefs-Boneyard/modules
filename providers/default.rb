@@ -40,6 +40,7 @@ action :save do
     group "root"
     mode "0644"
     notifies :start, "service[modules-load]"
+    only_if { supported? }
   end
 end
 

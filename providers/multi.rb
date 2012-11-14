@@ -42,6 +42,7 @@ action :save do
       :modules => new_resource.modules
       )
     notifies :start, "service[modules-load]"
+    only_if { supported? }
   end
 end
 

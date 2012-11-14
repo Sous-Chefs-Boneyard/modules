@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+if not supported?
+  return
+end
+
 directory "/etc/modules-load.d" do
   owner "root"
   group "root"
@@ -34,24 +38,24 @@ end
 # using upstart
 case node['platform']
 when "ubuntu"
-  if node['platform_version'].to_f >= 9.10
-    cookbook_file "/etc/init/modules-load.conf" do
-      source "modules-load.conf"
-      owner "root"
-      group "root"
-      mode "0644"
-    end
-    
-    service "module-init-tools" do
-      provider Chef::Provider::Service::Upstart
-    end
-    
-    service "modules-load" do
-      provider Chef::Provider::Service::Upstart
-      action [:enable, :start]
-      notifies :start, "service[module-init-tools]"
-    end
+  cookbook_file "/etc/init/modules-load.conf" do
+    source "modules-load.conf"
+    owner "root"
+    group "root"
+    mode "0644"
   end
+
+  service "module-init-tools" do
+    provider Chef::Provider::Service::Upstart
+  end
+  
+  service "modules-load" do
+    provider Chef::Provider::Service::Upstart
+    action [:enable, :start]
+    notifies :start, "service[module-init-tools]"
+  end
+else
+  return
 end
 
 #TODO do init script.
@@ -68,5 +72,3 @@ if node.attribute?('modules')
     notifies :start, "service[modules-load]"
   end
 end
-
-service "modules-load"
