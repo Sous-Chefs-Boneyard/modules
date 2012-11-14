@@ -35,18 +35,20 @@ end
 
 action :save do
   file path do
-    content new_resource.name + serializeOptions
+    content new_resource.module + serializeOptions
     owner "root"
     group "root"
     mode "0644"
-    notifies :start, "service[modules-load]"
     only_if { supported? }
+  end
+  modules new_resource.module do
+    action :load
   end
 end
 
 action :load do
   execute "load module" do
-    command "modprobe #{new_ressource.module} #{serializeOptions}"
+    command "modprobe #{new_resource.module} #{serializeOptions}"
   end
 end
 
@@ -55,7 +57,7 @@ action :remove do
     action :delete
   end
   execute "unload module" do
-    command "modprobe -r #{new_ressource.module}"
+    command "modprobe -r #{new_resource.module}"
   end
 end
 
