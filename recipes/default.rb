@@ -60,15 +60,14 @@ end
 
 #TODO do init script.
 
-if node.attribute?('modules')
-  template "/etc/modules-load.d/chef-attibutes.conf" do
-    source "modules.conf.erb"
-    mode "0644"
-    owner "root"
-    group "root"
-    variables(
-      :modules => node['modules'] 
-    )
-    notifies :start, "service[modules-load]"
-  end
+template "/etc/modules-load.d/chef-attibutes.conf" do
+  source "modules.conf.erb"
+  mode "0644"
+  owner "root"
+  group "root"
+  variables(
+    :modules => node['modules'] 
+  )
+  notifies :start, "service[modules-load]"
+  only_if { node.attribute?('modules') }
 end
