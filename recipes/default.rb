@@ -21,6 +21,11 @@ if not supported?
   return
 end
 
+case node["platform_family"]
+when "debian"
+  package "kmod"
+end
+
 directory "/etc/modules-load.d" do
   owner "root"
   group "root"
