@@ -8,7 +8,7 @@ def supported?
       return false
     end
   else
-    Chef::log.info("Your platform isn't manage to save module changes")
+    Chef::Log.info("Your platform isn't manage to save module changes")
     return false
   end
 end
