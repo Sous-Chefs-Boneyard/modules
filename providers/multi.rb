@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+use_inline_resources
+
 include Chef::DSL::IncludeRecipe
 
 def path

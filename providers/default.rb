@@ -18,21 +18,9 @@
 # limitations under the License.
 #
 
+use_inline_resources
+
 include Chef::DSL::IncludeRecipe
-
-def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
-end
-
-def serializeOptions
-  output = ""
-  if new_resource.options
-    new_resource.options.each do |option, value|
-      output << " " + option + "=" + value
-    end
-  end
-  return output
-end
 
 action :save do
 
@@ -51,8 +39,9 @@ action :save do
 end
 
 action :load do
-  execute "load module" do
+  execute "load module #{new_resource.module}" do
     command "modprobe #{new_resource.module} #{serializeOptions}"
+    not_if { mod_loaded?(new_resource.module) }
   end
 end
 
@@ -65,3 +54,22 @@ action :remove do
   end
 end
 
+
+def path
+  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
+end
+
+def serializeOptions
+  output = ""
+  if new_resource.options
+    new_resource.options.each do |option, value|
+      output << " " + option + "=" + value
+    end
+  end
+  return output
+end
+
+def mod_loaded?(mod)
+  cmd = "lsmod | grep -q #{mod}"
+  return Mixlib::ShellOut.new(cmd).run_command.status == 0
+end
