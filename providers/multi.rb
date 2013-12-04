@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include Chef::DSL::IncludeRecipe
+
 def path
   new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
 end
@@ -33,6 +35,9 @@ def serializeOptions
 end
 
 action :save do
+
+  include_recipe "modules::config"
+
   template path do
     source "modules.conf.erb"
     owner "root"

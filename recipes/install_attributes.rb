@@ -17,5 +17,16 @@
 # limitations under the License.
 #
 
-include_recipe "modules::config"
-include_recipe "modules::install_attributes"
+#TODO do init script.
+
+template "/etc/modules-load.d/chef-attibutes.conf" do
+  source "modules.conf.erb"
+  mode "0644"
+  owner "root"
+  group "root"
+  variables(
+    :modules => node['modules']['modules']
+  )
+  notifies :start, "service[modules-load]"
+  only_if { node['modules']['modules'] }
+end
