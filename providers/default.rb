@@ -18,6 +18,42 @@
 # limitations under the License.
 #
 
+use_inline_resources
+
+include Chef::DSL::IncludeRecipe
+
+action :save do
+
+  include_recipe "modules::config"
+
+  file path do
+    content new_resource.module + serializeOptions
+    owner "root"
+    group "root"
+    mode "0644"
+    only_if { supported? }
+  end
+  modules new_resource.module do
+    action :load
+  end
+end
+
+action :load do
+  execute "load module #{new_resource.module}" do
+    command "modprobe #{new_resource.module} #{serializeOptions}"
+    not_if { mod_loaded?(new_resource.module) }
+  end
+end
+
+action :remove do
+  file path do
+    action :delete
+  end
+  execute "unload module" do
+    command "modprobe -r #{new_resource.module}"
+  end
+end
+
 
 def path
   new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
@@ -33,31 +69,7 @@ def serializeOptions
   return output
 end
 
-action :save do
-  file path do
-    content new_resource.module + serializeOptions
-    owner "root"
-    group "root"
-    mode "0644"
-    only_if { supported? }
-  end
-  modules new_resource.module do
-    action :load
-  end
+def mod_loaded?(mod)
+  cmd = "lsmod | grep -q #{mod}"
+  return Mixlib::ShellOut.new(cmd).run_command.status == 0
 end
-
-action :load do
-  execute "load module" do
-    command "modprobe #{new_resource.module} #{serializeOptions}"
-  end
-end
-
-action :remove do
-  file path do
-    action :delete
-  end
-  execute "unload module" do
-    command "modprobe -r #{new_resource.module}"
-  end
-end
-
