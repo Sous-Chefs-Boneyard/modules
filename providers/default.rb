@@ -24,18 +24,16 @@ include Chef::DSL::IncludeRecipe
 
 action :save do
 
-  include_recipe "modules::config"
+  include_recipe 'modules::config'
 
   file path do
     content new_resource.module + serializeOptions
-    owner "root"
-    group "root"
-    mode "0644"
+    owner 'root'
+    group 'root'
+    mode '0644'
     only_if { supported? }
   end
-  modules new_resource.module do
-    action :load
-  end
+  run_action :load
 end
 
 action :load do
@@ -49,27 +47,26 @@ action :remove do
   file path do
     action :delete
   end
-  execute "unload module" do
+  execute 'unload module' do
     command "modprobe -r #{new_resource.module}"
   end
 end
-
 
 def path
   new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
 end
 
 def serializeOptions
-  output = ""
+  output = ''
   if new_resource.options
     new_resource.options.each do |option, value|
-      output << " " + option + "=" + value
+      output << ' ' + option + '=' + value
     end
   end
-  return output
+  output
 end
 
 def mod_loaded?(mod)
   cmd = "lsmod | grep -q #{mod}"
-  return Mixlib::ShellOut.new(cmd).run_command.status == 0
+  Mixlib::ShellOut.new(cmd).run_command.status == 0
 end

@@ -28,9 +28,9 @@ end
 
 def serializeOptions
   if new_resource.options
-    output = ""
+    output = ''
     new_resource.options.each do |option, value|
-      output << " " + option + "=" + value
+      output << ' ' + option + '=' + value
     end
     return output
   end
@@ -38,38 +38,37 @@ end
 
 action :save do
 
-  include_recipe "modules::config"
+  include_recipe 'modules::config'
 
   template path do
-    source "modules.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
+    source 'modules.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
     variables(
       :modules => new_resource.modules
       )
-    notifies :start, "service[modules-load]"
+    notifies :start, 'service[modules-load]'
     only_if { supported? }
   end
 end
 
-#action :load do
+# action :load do
 #  new_resource.modules.each do |module|
 #    execute "load module" do
 #      command "modprobe #{name} #{serializeOptions}"
 #    end
 #  end
-#end
+# end
 
 action :remove do
   file path do
     action :delete
   end
-  #TODO test this function
+  # TODO test this function
   new_resource.modules.each do |name|
-    execute "unload module" do
+    execute 'unload module' do
       command "modprobe -r #{name}"
     end
   end
 end
-

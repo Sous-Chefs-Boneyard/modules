@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-include_recipe "modules::config"
-include_recipe "modules::install_attributes"
+include_recipe 'modules::config'
+include_recipe 'modules::install_attributes'

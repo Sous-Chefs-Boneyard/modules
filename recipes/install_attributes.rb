@@ -17,16 +17,16 @@
 # limitations under the License.
 #
 
-#TODO do init script.
+# TODO do init script.
 
-template "/etc/modules-load.d/chef-attibutes.conf" do
-  source "modules.conf.erb"
-  mode "0644"
-  owner "root"
-  group "root"
+template '/etc/modules-load.d/chef-attibutes.conf' do
+  source 'modules.conf.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
   variables(
     :modules => node['modules']['modules']
   )
-  notifies :start, "service[modules-load]"
+  notifies :start, 'service[modules-load]'
   only_if { node['modules']['modules'] }
 end
