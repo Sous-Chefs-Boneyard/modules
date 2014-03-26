@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Youscribe/modules-cookbook.svg?branch=master)](https://travis-ci.org/Youscribe/modules-cookbook)
 # modules-cookbook
 
 ## DESCRIPTION:
