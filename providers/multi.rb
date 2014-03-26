@@ -22,20 +22,6 @@ use_inline_resources
 
 include Chef::DSL::IncludeRecipe
 
-def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
-end
-
-def serializeOptions
-  if new_resource.options
-    output = ''
-    new_resource.options.each do |option, value|
-      output << ' ' + option + '=' + value
-    end
-    return output
-  end
-end
-
 action :save do
 
   include_recipe 'modules::config'
@@ -53,22 +39,18 @@ action :save do
   end
 end
 
-# action :load do
-#  new_resource.modules.each do |module|
-#    execute "load module" do
-#      command "modprobe #{name} #{serializeOptions}"
-#    end
-#  end
-# end
-
 action :remove do
   file path do
     action :delete
   end
-  # TODO test this function
+  # TODO: test this function
   new_resource.modules.each do |name|
     execute 'unload module' do
       command "modprobe -r #{name}"
     end
   end
+end
+
+def path
+  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
 end

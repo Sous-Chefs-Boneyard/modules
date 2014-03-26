@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-# TODO do init script.
+# TODO: do init script.
 
 template '/etc/modules-load.d/chef-attibutes.conf' do
   source 'modules.conf.erb'

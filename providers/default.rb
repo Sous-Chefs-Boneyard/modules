@@ -27,7 +27,7 @@ action :save do
   include_recipe 'modules::config'
 
   file path do
-    content new_resource.module + serializeOptions
+    content new_resource.module + serialize_options
     owner 'root'
     group 'root'
     mode '0644'
@@ -38,7 +38,7 @@ end
 
 action :load do
   execute "load module #{new_resource.module}" do
-    command "modprobe #{new_resource.module} #{serializeOptions}"
+    command "modprobe #{new_resource.module} #{serialize_options}"
     not_if { mod_loaded?(new_resource.module) }
   end
 end
@@ -56,7 +56,7 @@ def path
   new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
 end
 
-def serializeOptions
+def serialize_options
   output = ''
   if new_resource.options
     new_resource.options.each do |option, value|
