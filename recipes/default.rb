@@ -24,11 +24,14 @@ when "debian"
   package "kmod"
 end
 
-directory "/etc/modules-load.d" do
-  owner "root"
-  group "root"
-  mode "0755"
-  action :create
+case node["platform"]
+when "fedora", "arch", "exherbo"
+  directory "/etc/modules-load.d" do
+    owner "root"
+    group "root"
+    mode "0755"
+    action :create
+  end
 end
 
 directory "/etc/modprobe.d" do
@@ -37,5 +40,3 @@ directory "/etc/modprobe.d" do
   mode "0755"
   action :create
 end
-
-
