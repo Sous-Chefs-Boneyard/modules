@@ -38,7 +38,7 @@ def serializeOptions
   output = ""
   if new_resource.options
     new_resource.options.each do |option, value|
-      output << " " + option + "=" + value
+      output << " #{option}=#{value}"
     end
   end
   return output
