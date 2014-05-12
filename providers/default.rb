@@ -74,8 +74,15 @@ action :unload do
 end
 
 action :blacklist do
-  b = file path_boot do
-    action :delete
+  case node['platform']
+  when "exherbo", "ubuntu", "arch"
+    b = file path_boot do
+      action :delete
+    end
+  when "debian", "ubuntu"
+    b = execute "blacklist module" do
+      command "sed -i '/#{new_resource.module}/d' #{path_boot}"
+    end
   end
   s = file path_opts do
     content "install #{new_resource.module} /bin/false\n"
