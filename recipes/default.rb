@@ -1,8 +1,10 @@
 #
 # Cookbook Name:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
+# Author:: Vasiliy Tolstov <v.tolstov@selfip.ru>
 #
-# Copyright 20012, Societe Publica.
+# Copyright 2012, Societe Publica.
+# Copyright 2014, Vasiliy Tolstov.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +19,6 @@
 # limitations under the License.
 #
 
-if not supported?
-  return
-end
-
 case node["platform_family"]
 when "debian"
   package "kmod"
@@ -29,50 +27,15 @@ end
 directory "/etc/modules-load.d" do
   owner "root"
   group "root"
-  mode "0644"
+  mode "0755"
   action :create
 end
 
-cookbook_file "/etc/modules-load.d/header" do
-  source "modules-load_header"
+directory "/etc/modprobe.d" do
   owner "root"
   group "root"
-  mode "0644"
+  mode "0755"
+  action :create
 end
 
-# using upstart
-case node['platform']
-when "ubuntu"
-  cookbook_file "/etc/init/modules-load.conf" do
-    source "modules-load.conf"
-    owner "root"
-    group "root"
-    mode "0644"
-  end
 
-  service "module-init-tools" do
-    provider Chef::Provider::Service::Upstart
-  end
-  
-  service "modules-load" do
-    provider Chef::Provider::Service::Upstart
-    action [:enable, :start]
-    notifies :start, "service[module-init-tools]"
-  end
-else
-  return
-end
-
-#TODO do init script.
-
-template "/etc/modules-load.d/chef-attibutes.conf" do
-  source "modules.conf.erb"
-  mode "0644"
-  owner "root"
-  group "root"
-  variables(
-    :modules => node['modules'] 
-  )
-  notifies :start, "service[modules-load]"
-  only_if { node.attribute?('modules') }
-end

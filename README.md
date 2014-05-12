@@ -23,22 +23,19 @@ Resource/Provider
 
 This cookbook includes LWRPs for managing:
 * modules
-* modules_multi
 
 modules
 --------
 
 # Actions
 
-- :save: save and load a module (default)
 - :load: load a module
-- :remove: remove a (previously saved or load) module.
+- :unload: unload modules
 
 # Attribute Parameters
 
 - module
 - options
-- path
 
 
 # Examples
@@ -48,18 +45,5 @@ modules "8021q" do
   action :load
 end
 ```
-
-modules_multi
-------------
-
-#Actions
-
-- :save: save and load modules (default)
-- :remove: remove (previously saved or load) modules.
-
-# Attribute Parameters
-
-- modules
-- path
 
 # Examples

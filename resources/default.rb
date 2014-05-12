@@ -1,13 +1,14 @@
-actions :save, :load, :remove
+actions :load, :unload, :blacklist
 
-default_action :save
+default_action :load
 
 attribute :module, :kind_of => String, :name_attribute => true
 attribute :options, :kind_of => Hash, :default => nil
-attribute :path, :kind_of => String, :default => nil
+attribute :autoload, :kind_of => [TrueClass, FalseClass], :default => true
+attribute :save, :kind_of => [TrueClass, FalseClass], :default => true
 
 # Covers 0.10.8 and earlier
 def initialize(*args)
   super
-  @action = :save
+  @action = :load
 end

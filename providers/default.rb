@@ -2,8 +2,10 @@
 # Cookbook Name:: modules
 # Provider:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
+# Author:: Vasiliy Tolstov <v.tolstov@selfip.ru>
 #
-# Copyright 20012, Societe Publica.
+# Copyright 2012, Societe Publica.
+# Copyright 2014, Vasiliy Tolstov.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,8 +21,17 @@
 #
 
 
-def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
+def path_boot
+  case node['platform']
+  when "exherbo", "ubuntu", "arch"
+    return "/etc/modules-load.d/#{new_resource.name}.conf"
+  when "debian", "ubuntu"
+    return "/etc/modules"
+  end
+end
+
+def path_opts
+  return "/etc/modprobe.d/#{new_resource.name}.conf"
 end
 
 def serializeOptions
@@ -33,31 +44,47 @@ def serializeOptions
   return output
 end
 
-action :save do
-  file path do
-    content new_resource.module + serializeOptions
-    owner "root"
-    group "root"
-    mode "0644"
-    only_if { supported? }
-  end
-  modules new_resource.module do
-    action :load
-  end
-end
-
 action :load do
   execute "load module" do
     command "modprobe #{new_resource.module} #{serializeOptions}"
   end
+  if new_resource.autoload
+    b = file path_boot do
+      content new_resource.module
+      owner "root"
+      group "root"
+      mode "0644"
+    end
+  end
+  if new_resource.save
+    s = file path_opts do
+      content "#{new_resource.module} #{serializeOptions}\n"
+      owner "root"
+      group "root"
+      mode "0644"
+    end
+  end
+  new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? or s.updated_by_last_action? )
 end
 
-action :remove do
-  file path do
-    action :delete
-  end
+action :unload do
   execute "unload module" do
     command "modprobe -r #{new_resource.module}"
   end
 end
 
+action :blacklist do
+  b = file path_boot do
+    action :delete
+  end
+  s = file path_opts do
+    content "install #{new_resource.module} /bin/false\n"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
+  modules new_resource.module do
+    action :unload
+  end
+  new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? or s.updated_by_last_action? )
+end
