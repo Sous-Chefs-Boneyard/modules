@@ -58,7 +58,7 @@ action :load do
   end
   if new_resource.save
     s = file path_opts do
-      content "#{new_resource.module} #{serializeOptions}\n"
+      content "options #{new_resource.module} #{serializeOptions}\n"
       owner "root"
       group "root"
       mode "0644"
