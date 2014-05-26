@@ -55,6 +55,7 @@ action :load do
       group "root"
       mode "0644"
     end
+    new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? )
   end
   if new_resource.save
     unless new_resource.options.nil?
@@ -64,15 +65,16 @@ action :load do
         group "root"
         mode "0644"
       end
+      new_resource.updated_by_last_action(true) if ( s.updated_by_last_action? )
     end
   end
-  new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? or s.updated_by_last_action? )
 end
 
 action :unload do
-  execute "unload module" do
+  u = execute "unload module" do
     command "modprobe -r #{new_resource.module}"
   end
+  new_resource.updated_by_last_action(true) if ( u.updated_by_last_action? )
 end
 
 action :blacklist do
@@ -81,10 +83,12 @@ action :blacklist do
     b = file path_boot do
       action :delete
     end
+    new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? )
   when "debian", "ubuntu"
     b = execute "blacklist module" do
       command "sed -i '/#{new_resource.module}/d' #{path_boot}"
     end
+    new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? )
   end
   s = file path_opts do
     content "install #{new_resource.module} /bin/false\n"
@@ -92,8 +96,8 @@ action :blacklist do
     group "root"
     mode "0644"
   end
+  new_resource.updated_by_last_action(true) if ( s.updated_by_last_action? )
   modules new_resource.module do
     action :unload
   end
-  new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? or s.updated_by_last_action? )
 end
