@@ -35,8 +35,8 @@ def path_opts
 end
 
 def serializeOptions
-  output = ""
-  if new_resource.options
+  output = " "
+  unless new_resource.options.nil?
     new_resource.options.each do |option, value|
       output << " #{option}=#{value}"
     end
@@ -46,7 +46,7 @@ end
 
 action :load do
   execute "load module" do
-    command "modprobe #{new_resource.module} #{serializeOptions}"
+    command "modprobe #{new_resource.module}#{serializeOptions}"
   end
   if new_resource.autoload
     b = file path_boot do
@@ -57,11 +57,13 @@ action :load do
     end
   end
   if new_resource.save
-    s = file path_opts do
-      content "options #{new_resource.module} #{serializeOptions}\n"
-      owner "root"
-      group "root"
-      mode "0644"
+    unless new_resource.options.nil?
+      s = file path_opts do
+        content "options #{new_resource.module}#{serializeOptions}\n"
+        owner "root"
+        group "root"
+        mode "0644"
+      end
     end
   end
   new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? or s.updated_by_last_action? )
