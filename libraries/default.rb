@@ -7,6 +7,12 @@ def supported?
     else
       return false
     end
+  when 'debian'
+    if Gem::Version.new(node['platform_version']) >= Gem::Version.new('7.0')
+      return true
+    else
+      return false
+    end
   else
     Chef::Log.info("Your platform isn't manage to save module changes")
     return false

@@ -56,8 +56,8 @@ when 'ubuntu'
     action [:enable, :start]
     notifies :start, 'service[module-init-tools]'
   end
-else
-  return
+when 'debian'
+  service 'kmod'
 end
 
 template '/etc/modules-load.d/chef-default.conf' do
@@ -68,6 +68,6 @@ template '/etc/modules-load.d/chef-default.conf' do
   variables(
     :modules => node['modules']['default']['modules']
   )
-  notifies :start, 'service[modules-load]'
+  notifies :start, node['modules']['service']['modules-load']
   only_if { node['modules']['default']['modules'] }
 end
