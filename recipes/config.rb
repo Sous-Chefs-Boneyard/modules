@@ -18,7 +18,6 @@
 #
 
 return unless supported?
-
 node['modules']['packages'].each do |p|
   package p
 end
@@ -38,26 +37,31 @@ cookbook_file '/etc/modules-load.d/header' do
 end
 
 # using upstart
-case node['platform']
-when 'ubuntu'
-  cookbook_file '/etc/init/modules-load.conf' do
-    source 'modules-load.conf'
+cookbook_file '/etc/init/modules-load.conf' do
+  source 'modules-load.conf'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+if node['platform'] == 'centos'
+  cookbook_file '/etc/init/module-init-tools.conf' do
+    source 'module-init-tools.conf'
     owner 'root'
     group 'root'
     mode '0644'
   end
+end
 
-  service 'module-init-tools' do
-    provider Chef::Provider::Service::Upstart
-  end
+service 'modules-load' do
+  provider Chef::Provider::Service::Upstart
+  action [:enable, :start]
+  notifies :restart, 'service[module-init-tools]'
+end
 
-  service 'modules-load' do
-    provider Chef::Provider::Service::Upstart
-    action [:enable, :start]
-    notifies :start, 'service[module-init-tools]'
-  end
-else
-  return
+service 'module-init-tools' do
+  action [:enable, :start]
+  provider Chef::Provider::Service::Upstart
 end
 
 template '/etc/modules-load.d/chef-default.conf' do
@@ -68,6 +72,6 @@ template '/etc/modules-load.d/chef-default.conf' do
   variables(
     :modules => node['modules']['default']['modules']
   )
-  notifies :start, 'service[modules-load]'
+  notifies :restart, 'service[modules-load]', :immediately
   only_if { node['modules']['default']['modules'] }
 end

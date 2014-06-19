@@ -1,8 +1,4 @@
-case node['platform']
-when 'ubuntu'
-  default['modules']['default']['modules'] = ['lp', 'rtc']
-end
-
+default['modules']['default'] = {}
 default['modules']['packages'] = value_for_platform_family(
   'debian' => value_for_platform(
     'ubuntu' => {
@@ -11,5 +7,8 @@ default['modules']['packages'] = value_for_platform_family(
     },
     'default' => ['kmod']
   ),
+  'centos' => {
+    '6.0' => ['module-init-tools']
+  },
   'default' => []
 )

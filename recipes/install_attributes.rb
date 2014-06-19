@@ -27,6 +27,6 @@ template '/etc/modules-load.d/chef-attibutes.conf' do
   variables(
     :modules => node['modules']['modules']
   )
-  notifies :start, 'service[modules-load]'
+  notifies :restart, 'service[modules-load]', :immediately
   only_if { node['modules']['modules'] }
 end

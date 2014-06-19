@@ -34,7 +34,7 @@ action :save do
     variables(
       :modules => new_resource.modules
       )
-    notifies :start, 'service[modules-load]'
+    notifies :restart, 'service[modules-load]', :immediately
     only_if { supported? }
   end
 end
