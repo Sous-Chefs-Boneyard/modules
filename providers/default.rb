@@ -47,6 +47,7 @@ end
 action :load do
   execute "load module" do
     command "modprobe #{new_resource.module}#{serializeOptions}"
+    not_if { ::File.exist?("/sys/module/#{new_resource.module}") }
   end
   if new_resource.autoload
     b = file path_boot do
