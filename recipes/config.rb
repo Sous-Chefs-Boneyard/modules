@@ -47,14 +47,14 @@ when 'ubuntu'
     mode '0644'
   end
 
-  service 'module-init-tools' do
+  service module_init_service do
     provider Chef::Provider::Service::Upstart
   end
 
   service 'modules-load' do
     provider Chef::Provider::Service::Upstart
     action [:enable, :start]
-    notifies :start, 'service[module-init-tools]'
+    notifies :start, "service[#{module_init_service}]"
   end
 else
   return
