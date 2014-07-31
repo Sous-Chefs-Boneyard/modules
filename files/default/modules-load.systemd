@@ -1,0 +1,9 @@
+[Unit]
+After=udev.service
+
+[Install]
+WantedBy=udev.service
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/modules-load.sh

@@ -1,0 +1,9 @@
+[Unit]
+After=modules-load.service
+
+[Install]
+WantedBy=modules-load.service
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/module-init-tools.sh
