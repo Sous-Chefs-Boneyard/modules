@@ -2,7 +2,7 @@
 # Cookbook Name:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 20012, Societe Publica.
+# Copyright 2012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,11 @@
 
 # TODO: do init script.
 
-template '/etc/modules-load.d/chef-attibutes.conf' do
+file '/etc/modules-load.d/chef-attibutes.conf' do
+  action :delete
+end
+
+template '/etc/modules-load.d/chef-attributes.conf' do
   source 'modules.conf.erb'
   mode '0644'
   owner 'root'
