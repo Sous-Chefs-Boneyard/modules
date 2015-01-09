@@ -27,7 +27,7 @@ action :save do
   include_recipe 'modules::config'
 
   file path do
-    content new_resource.module + serialize_options
+    content new_resource.module + serialize_options + "\n"
     owner 'root'
     group 'root'
     mode '0644'
