@@ -1,4 +1,4 @@
-actions :load, :unload, :blacklist
+actions :load, :unload, :blacklist, :autoload
 
 default_action :load
 

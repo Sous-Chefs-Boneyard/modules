@@ -45,6 +45,17 @@ def serializeOptions
 end
 
 action :load do
+  if new_resource.save
+    unless new_resource.options.nil?
+      s = file path_opts do
+        content "options #{new_resource.module}#{serializeOptions}\n"
+        owner "root"
+        group "root"
+        mode "0644"
+      end
+      new_resource.updated_by_last_action(true) if ( s.updated_by_last_action? )
+    end
+  end
   execute "load module" do
     command "modprobe #{new_resource.module}#{serializeOptions}"
     not_if { ::File.exist?("/sys/module/#{new_resource.module}") }
@@ -57,17 +68,6 @@ action :load do
       mode "0644"
     end
     new_resource.updated_by_last_action(true) if ( b.updated_by_last_action? )
-  end
-  if new_resource.save
-    unless new_resource.options.nil?
-      s = file path_opts do
-        content "options #{new_resource.module}#{serializeOptions}\n"
-        owner "root"
-        group "root"
-        mode "0644"
-      end
-      new_resource.updated_by_last_action(true) if ( s.updated_by_last_action? )
-    end
   end
 end
 
