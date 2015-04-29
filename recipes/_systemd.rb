@@ -14,6 +14,14 @@
   end
 end
 
+# This is a symlink to /etc/modules which breaks the modules-load script. Delete
+# this symlink on Debian.
+file '/etc/modules-load.d/modules.conf' do
+  action :delete
+  backup false
+  only_if { platform?('debian') }
+end
+
 service "module-init-tools" do
   provider Chef::Provider::Service::Systemd
   action [:enable, :start]
