@@ -29,6 +29,16 @@ platforms:
   driver_config:
     username: ubuntu
     image_ref: "Ubuntu 12.04"
+- name: ubuntu-14.04
+  driver_plugin: openstack
+  driver_config:
+    username: ubuntu
+    image_ref: "Ubuntu 14.04"
+- name: debian-8
+  driver_plugin: openstack
+  driver_config:
+    username: debian
+    image_ref: "Debian 8.0"
 - name: centos-6.6
   driver_plugin: openstack
   driver_config:

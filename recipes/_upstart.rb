@@ -5,13 +5,11 @@ cookbook_file '/etc/init/modules-load.conf' do
   mode '0644'
 end
 
-if node['platform'] == 'centos'
-  cookbook_file '/etc/init/module-init-tools.conf' do
-    source 'module-init-tools.conf'
-    owner 'root'
-    group 'root'
-    mode '0644'
-  end
+cookbook_file '/etc/init/module-init-tools.conf' do
+  source 'module-init-tools.conf'
+  owner 'root'
+  group 'root'
+  mode '0644'
 end
 
 service 'modules-load' do

@@ -7,6 +7,13 @@ def supported?
     else
       return false
     end
+  when 'debian'
+    # only work with systemd
+    if Gem::Version.new(node['platform_version']) >= Gem::Version.new('8.0')
+      return true
+    else
+      return false
+    end
   when 'centos'
     # only work with upstart
     if Gem::Version.new(node['platform_version']) >= Gem::Version.new('6.0')
