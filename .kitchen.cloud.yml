@@ -1,0 +1,59 @@
+---
+driver_config:
+  openstack_username: <%= ENV['OS_USERNAME'] %>
+  openstack_api_key: <%= ENV['OS_PASSWORD'] %>
+  openstack_auth_url: <%= "#{ENV['OS_AUTH_URL']}/tokens" %>
+  key_name: <%= ENV['OS_SSH_KEYPAIR'] %>
+  private_key_path: <%= ENV['OS_PRIVATE_SSH_KEY'] %>
+  public_key_path: <%= ENV['OS_PUBLIC_SSH_KEY'] %>
+  openstack_tenant: <%= ENV['OS_TENANT_NAME'] %>
+  floating_ip: <%= ENV['OS_FLOATING_IP'] %>
+  floating_ip_pool: <%= ENV['OS_FLOATING_IP_POOL'] %>
+  flavor_ref: <%= ENV['OS_FLAVOR_REF'] %>
+
+provisioner:
+  name: chef_solo
+  attributes:
+    authorization:
+      sudo:
+        users:
+          - vagrant
+          - centos
+          - ubuntu
+          - fedora
+        passwordless: true
+
+platforms:
+- name: ubuntu-12.04
+  driver_plugin: openstack
+  driver_config:
+    username: ubuntu
+    image_ref: "Ubuntu 12.04"
+- name: centos-6.6
+  driver_plugin: openstack
+  driver_config:
+    username: centos
+    image_ref: "CentOS 6.6"
+- name: centos-7.1
+  driver_plugin: openstack
+  driver_config:
+    username: centos
+    image_ref: "CentOS 7.1"
+- name: fedora-20
+  driver_plugin: openstack
+  driver_config:
+    username: fedora
+    image_ref: "Fedora 20"
+- name: fedora-21
+  driver_plugin: openstack
+  driver_config:
+    username: fedora
+    image_ref: "Fedora 21"
+
+suites:
+- name: default
+  attributes:
+    modules:
+      modules: [lp]
+  run_list:
+    - recipe[modules]
