@@ -20,4 +20,4 @@ suites:
     modules:
       modules: [lp]
   run_list:
-    - "recipe[modules]"
+    - recipe[modules]
