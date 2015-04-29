@@ -2,25 +2,13 @@ def supported?
   case node['platform']
   when 'ubuntu'
     # only work with upstart
-    if Gem::Version.new(node['platform_version']) >= Gem::Version.new('9.10')
-      return true
-    else
-      return false
-    end
+    Chef::VersionConstraint::Platform.new('>= 9.10').include? node['platform_version']
   when 'debian'
     # only work with systemd
-    if Gem::Version.new(node['platform_version']) >= Gem::Version.new('8.0')
-      return true
-    else
-      return false
-    end
+    Chef::VersionConstraint::Platform.new('>= 8.0').include? node['platform_version']
   when 'centos'
     # only work with upstart
-    if Gem::Version.new(node['platform_version']) >= Gem::Version.new('6.0')
-      return true
-    else
-      return false
-    end
+    Chef::VersionConstraint::Platform.new('>= 6.0').include? node['platform_version']
   when 'fedora'
     return true
   else
