@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Youscribe/modules-cookbook.svg?branch=master)](https://travis-ci.org/Youscribe/modules-cookbook)
+[![Build Status](https://travis-ci.org/redguide/modules.svg?branch=master)](https://travis-ci.org/redguide/modules)
 # modules-cookbook
 
 ## DESCRIPTION:
