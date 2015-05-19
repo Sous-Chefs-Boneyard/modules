@@ -1,5 +1,8 @@
+# [modules-cookbook](https://github.com/redguide/modules)
+[![CK Version](http://img.shields.io/cookbook/v/modules.svg)](https://supermarket.chef.io/cookbooks/modules)
 [![Build Status](https://travis-ci.org/redguide/modules.svg?branch=master)](https://travis-ci.org/redguide/modules)
-# modules-cookbook
+[![Gitter chat](https://badges.gitter.im/redguide/modules.png)](https://gitter.im/redguide/modules)
+
 
 ## DESCRIPTION:
 Chef cookbook to manage linux modules with /etc/modules and modprobe (linux 2.6 +)
