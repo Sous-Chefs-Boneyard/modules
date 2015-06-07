@@ -19,6 +19,6 @@
 
 include_recipe 'modules::config'
 
-if node["platform"] == "ubuntu"
-	include_recipe 'modules::install_attributes'
+if node['platform'] == 'ubuntu'
+  include_recipe 'modules::install_attributes'
 end
