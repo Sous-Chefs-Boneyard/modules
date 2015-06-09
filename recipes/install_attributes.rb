@@ -19,6 +19,8 @@
 
 # TODO: do init script.
 
+return unless supported?
+
 file '/etc/modules-load.d/chef-attibutes.conf' do
   action :delete
 end
