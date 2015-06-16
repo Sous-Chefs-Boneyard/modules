@@ -1,7 +1,6 @@
 default['modules']['default'] = {}
-Chef::Log.info node.platform + " " + node.platform_version
 default['modules']['init'] = value_for_platform(
-  'centos' => {
+  ['centos', 'rhel'] => {
     '~> 6.0' => 'upstart',
     '~> 7.0' => 'systemd'
   },
@@ -20,7 +19,7 @@ default['modules']['packages'] = value_for_platform(
     'default' => ['kmod'],
     '>= 10.04' => ['module-init-tools'],
   },
-  'centos' => {
+  ['centos', 'rhel'] => {
     '~> 7.0' => ['kmod']
   },
   'fedora' => {

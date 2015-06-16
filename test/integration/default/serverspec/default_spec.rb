@@ -1,4 +1,5 @@
 require 'serverspec'
+
 set :backend, :exec
 
 describe kernel_module('lp') do
