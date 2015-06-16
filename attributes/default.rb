@@ -1,6 +1,6 @@
 default['modules']['default'] = {}
 default['modules']['init'] = value_for_platform(
-  ['centos', 'rhel'] => {
+  ['centos', 'redhat'] => {
     '~> 6.0' => 'upstart',
     '~> 7.0' => 'systemd'
   },
@@ -19,7 +19,7 @@ default['modules']['packages'] = value_for_platform(
     'default' => ['kmod'],
     '>= 10.04' => ['module-init-tools'],
   },
-  ['centos', 'rhel'] => {
+  ['centos', 'redhat'] => {
     '~> 7.0' => ['kmod']
   },
   'fedora' => {
