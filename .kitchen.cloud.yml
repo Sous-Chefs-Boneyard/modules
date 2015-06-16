@@ -13,15 +13,6 @@ driver_config:
 
 provisioner:
   name: chef_solo
-  attributes:
-    authorization:
-      sudo:
-        users:
-          - vagrant
-          - centos
-          - ubuntu
-          - fedora
-        passwordless: true
 
 platforms:
 - name: ubuntu-12.04
