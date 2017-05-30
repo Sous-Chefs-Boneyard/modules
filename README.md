@@ -19,7 +19,7 @@ node['modules'] = A namespace for modules settings.
 There are two ways of setting sysctl values:
 1. Set chef attributes, E.G.:
    default['modules']['loop']
-2. With Ressource/Provider
+2. With Resource/Provider
 
 ## Resource/Provider
 
