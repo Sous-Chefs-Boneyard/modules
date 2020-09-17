@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: modules
+# Cookbook:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 20012, Societe Publica.
+# Copyright:: 20012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,8 +38,7 @@ cookbook_file '/etc/modules-load.d/header' do
 end
 
 # using upstart
-case node['platform']
-when 'ubuntu'
+if platform?('ubuntu')
   cookbook_file '/etc/init/modules-load.conf' do
     source 'modules-load.conf'
     owner 'root'
@@ -66,7 +65,7 @@ template '/etc/modules-load.d/chef-default.conf' do
   owner 'root'
   group 'root'
   variables(
-    :modules => node['modules']['default']['modules']
+    modules: node['modules']['default']['modules']
   )
   notifies :start, 'service[modules-load]'
   only_if { node['modules']['default']['modules'] }

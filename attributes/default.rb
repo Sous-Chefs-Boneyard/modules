@@ -1,7 +1,4 @@
-case node['platform']
-when 'ubuntu'
-  default['modules']['default']['modules'] = ['lp', 'rtc']
-end
+default['modules']['default']['modules'] = %w(lp rtc) if platform?('ubuntu')
 
 default['modules']['packages'] = value_for_platform_family(
   'debian' => value_for_platform(

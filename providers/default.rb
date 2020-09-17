@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: modules
+# Cookbook:: modules
 # Provider:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 20012, Societe Publica.
+# Copyright:: 20012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,7 @@
 # limitations under the License.
 #
 
-use_inline_resources
-
-include Chef::DSL::IncludeRecipe
-
 action :save do
-
   include_recipe 'modules::config'
 
   file path do
@@ -53,7 +48,7 @@ action :remove do
 end
 
 def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
+  new_resource.path || "/etc/modules-load.d/#{new_resource.name}.conf"
 end
 
 def serialize_options
@@ -68,5 +63,5 @@ end
 
 def mod_loaded?(mod)
   cmd = "lsmod | grep -q #{mod}"
-  Mixlib::ShellOut.new(cmd).run_command.status == 0
+  shell_out(cmd).status == 0
 end
