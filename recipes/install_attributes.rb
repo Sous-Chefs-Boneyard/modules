@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: modules
+# Cookbook:: modules
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 2012, Societe Publica.
+# Copyright:: 2012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ template '/etc/modules-load.d/chef-attributes.conf' do
   owner 'root'
   group 'root'
   variables(
-    :modules => node['modules']['modules']
+    modules: node['modules']['modules']
   )
   notifies :start, 'service[modules-load]'
   only_if { node['modules']['modules'] }
