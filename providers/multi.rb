@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: modules
+# Cookbook:: modules
 # Provider:: modules_multi
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 20012, Societe Publica.
+# Copyright:: 2012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,7 @@
 # limitations under the License.
 #
 
-use_inline_resources
-
-include Chef::DSL::IncludeRecipe
-
 action :save do
-
   include_recipe 'modules::config'
 
   template path do
@@ -32,8 +27,8 @@ action :save do
     group 'root'
     mode '0644'
     variables(
-      :modules => new_resource.modules
-      )
+      modules: new_resource.modules
+    )
     notifies :start, 'service[modules-load]'
     only_if { supported? }
   end
@@ -52,5 +47,5 @@ action :remove do
 end
 
 def path
-  new_resource.path ? new_resource.path : "/etc/modules-load.d/#{new_resource.name}.conf"
+  new_resource.path || "/etc/modules-load.d/#{new_resource.name}.conf"
 end

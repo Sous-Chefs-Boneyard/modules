@@ -17,7 +17,7 @@ namespace :style do
     FoodCritic::Rake::LintTask.new(:chef) do |t|
       t.options = {
         fail_tags: ['any'],
-        tags: ['~FC003']
+        tags: ['~FC003'],
       }
     end
   rescue LoadError
