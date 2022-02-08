@@ -6,6 +6,6 @@ description 'Manage modules on linux'
 source_url 'https://github.com/redguide/modules'
 issues_url 'https://github.com/redguide/modules/issues'
 
-version '0.2.0'
+version '0.2.1'
 supports 'ubuntu'
 supports 'debian'
