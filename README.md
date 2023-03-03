@@ -1,65 +1,51 @@
-# [modules-cookbook](https://github.com/redguide/modules)
-[![CK Version](http://img.shields.io/cookbook/v/modules.svg)](https://supermarket.chef.io/cookbooks/modules)
-[![Build Status](https://travis-ci.org/redguide/modules.svg?branch=master)](https://travis-ci.org/redguide/modules)
-[![Gitter chat](https://badges.gitter.im/redguide/modules.png)](https://gitter.im/redguide/modules)
+# [modules-cookbook](https://github.com/sous-chefs/modules)
 
+## Description
 
-## DESCRIPTION:
 Chef cookbook to manage linux modules with /etc/modules and modprobe (linux 2.6 +)
 
-## REQUIREMENTS:
+## Requirements
 
 Linux 2.6+
 Ubuntu >9.10 (for the moment. use upstart and not init, any contribution is welcome)
 
-## ATTRIBUTES:
+## Attributes
+
 node['modules'] = A namespace for modules settings.
 
-## USAGE:
+## Usage
+
 There are two ways of setting sysctl values:
-1. Set chef attributes, E.G.:
-   default['modules']['loop']
+
+1. Set chef attributes, e.g.: `default['modules']['loop']`
 2. With Ressource/Provider
 
-## Resource/Provider
+## Resources
 
-This cookbook includes LWRPs for managing:
-* modules
-* modules_multi
+- [modules](./documentation/modules.md)
+- [modules_multi](documentation/modules_multi.md)
 
-### modules
+## Contributors
 
-#### Actions
+This project exists thanks to all the people who [contribute.](https://opencollective.com/sous-chefs/contributors.svg?width=890&button=false)
 
-- :save: save and load a module (default)
-- :load: load a module
-- :remove: remove a (previously saved or load) module.
+### Backers
 
-#### Attribute Parameters
+Thank you to all our backers!
 
-- module
-- options
-- path
+![https://opencollective.com/sous-chefs#backers](https://opencollective.com/sous-chefs/backers.svg?width=600&avatarHeight=40)
 
+### Sponsors
 
-#### Examples
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
 
-```ruby
-modules '8021q' do
-  action :load
-end
-```
-
-### modules_multi
-
-#### Actions
-
-- :save: save and load modules (default)
-- :remove: remove (previously saved or load) modules.
-
-#### Attribute Parameters
-
-- modules
-- path
-
-#### Examples
+![https://opencollective.com/sous-chefs/sponsor/0/website](https://opencollective.com/sous-chefs/sponsor/0/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/1/website](https://opencollective.com/sous-chefs/sponsor/1/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/2/website](https://opencollective.com/sous-chefs/sponsor/2/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/3/website](https://opencollective.com/sous-chefs/sponsor/3/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/4/website](https://opencollective.com/sous-chefs/sponsor/4/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/5/website](https://opencollective.com/sous-chefs/sponsor/5/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/6/website](https://opencollective.com/sous-chefs/sponsor/6/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/7/website](https://opencollective.com/sous-chefs/sponsor/7/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/8/website](https://opencollective.com/sous-chefs/sponsor/8/avatar.svg?avatarHeight=100)
+![https://opencollective.com/sous-chefs/sponsor/9/website](https://opencollective.com/sous-chefs/sponsor/9/avatar.svg?avatarHeight=100)

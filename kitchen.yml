@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_infra
+  product_name: chef
+  enforce_idempotency: true
+  multiple_converge: 2
+  deprecations_as_errors: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: debian-10
+  - name: debian-11
+  - name: ubuntu-18.04
+  - name: ubuntu-20.04
+
+suites:
+  - name: default
+    run_list:
+      - "recipe[modules]"
