@@ -1,6 +1,32 @@
-actions :save, :remove
+unified_mode true
 
-default_action :save
+property :modules, Array, required: true
+property :path, String
 
-attribute :path, kind_of: String, default: nil
-attribute :modules, kind_of: Array, required: true
+action :save do
+  include_recipe 'modules::config'
+
+  template new_resource.path do
+    source 'modules.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    variables(
+      modules: new_resource.modules
+    )
+    notifies :start, 'service[modules-load]'
+    only_if { supported? }
+  end
+end
+
+action :remove do
+  file new_resource.path do
+    action :delete
+  end
+
+  new_resource.modules.each do |name|
+    execute 'unload module' do
+      command "modprobe -r #{name}"
+    end
+  end
+end
