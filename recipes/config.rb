@@ -55,8 +55,6 @@ if platform?('ubuntu')
     action [:enable, :start]
     notifies :start, "service[#{module_init_service}]"
   end
-else
-  return
 end
 
 template '/etc/modules-load.d/chef-default.conf' do

@@ -21,4 +21,4 @@ platforms:
 suites:
   - name: default
     run_list:
-      - "recipe[modules]"
+      - "recipe[test::default]"
